@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-import com.oocl.springboot.todo.exception.TodoNotFoundException;
 import com.oocl.springboot.todo.model.Todo;
 import com.oocl.springboot.todo.repository.TodoRepository;
 import java.util.List;
