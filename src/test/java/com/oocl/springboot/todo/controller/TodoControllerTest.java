@@ -107,4 +107,21 @@ class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(givenText));
     }
 
+    @Test
+    void should_return_updated_todo_when_update_with_id_and_data() throws Exception {
+        // Given
+        var idToUpdate = todo3.getId();
+        var textToUpdate = "New Text";
+        String requestBody = String.format("{\"text\": \"%s\" }", textToUpdate);
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.put("/todo/" + idToUpdate)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(idToUpdate))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(textToUpdate));
+    }
 }
