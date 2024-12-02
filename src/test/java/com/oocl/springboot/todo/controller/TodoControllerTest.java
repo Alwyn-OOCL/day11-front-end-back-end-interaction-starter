@@ -85,4 +85,26 @@ class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].text").value(the3thEmployeeCompanyInPage2.get().getText()));
     }
 
+    @Test
+    void should_return_created_todo() throws Exception {
+        //Given
+        var givenText = "New text";
+        var givenDone = false;
+        String givenTodo = String.format(
+                "{\"text\": \"%s\", \"done\": %b}",
+                givenText,
+                givenDone
+        );
+
+        // When
+        // Then
+        client.perform(
+                        MockMvcRequestBuilders.post("/todo")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(givenTodo))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(givenText));
+    }
+
 }
