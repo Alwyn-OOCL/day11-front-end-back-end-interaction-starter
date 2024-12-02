@@ -2,8 +2,10 @@ package com.oocl.springboot.todo.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
+import com.oocl.springboot.todo.exception.TodoNotFoundException;
 import com.oocl.springboot.todo.model.Todo;
 import com.oocl.springboot.todo.repository.TodoRepository;
 import java.util.List;
@@ -151,5 +153,19 @@ class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(todoGiven.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(todoGiven.getText()));
+    }
+
+    @Test
+    void should_print_message_when_find_by_id_not_found() {
+        // Given
+        var notFoundId = 999;
+
+        // When
+
+
+        // Then
+        assertThrows(Exception.class, () -> {
+            client.perform(MockMvcRequestBuilders.get("/todo/" + notFoundId)).andReturn();
+        });
     }
 }
