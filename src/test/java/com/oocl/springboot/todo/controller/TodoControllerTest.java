@@ -138,4 +138,18 @@ class TodoControllerTest {
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.NO_CONTENT.value());
         assertThat(todoRepository.findAll()).hasSize(2);
     }
+
+    @Test
+    void should_return_todo_when_get_by_id() throws Exception {
+        // Given
+
+        final var todoGiven = todoRepository.findAll().get(0);
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get("/todo/" + todoGiven.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(todoGiven.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.text").value(todoGiven.getText()));
+    }
 }
