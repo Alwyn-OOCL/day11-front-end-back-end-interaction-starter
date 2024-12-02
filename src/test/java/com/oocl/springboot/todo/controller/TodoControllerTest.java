@@ -69,4 +69,20 @@ class TodoControllerTest {
                 .isEqualTo(givenTodos);
     }
 
+    @Test
+    void should_return_paged_companies_when_get_by_page_params() throws Exception {
+        // Given
+        var pageIndex = 2;
+        var pageSize = 2;
+        final var the3thEmployeeCompanyInPage2 = todoRepository.findById(todo3.getId());
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get(String.format("/todo?pageIndex=%s&pageSize=%s", pageIndex, pageSize)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].id").value(the3thEmployeeCompanyInPage2.get().getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].text").value(the3thEmployeeCompanyInPage2.get().getText()));
+    }
+
 }
