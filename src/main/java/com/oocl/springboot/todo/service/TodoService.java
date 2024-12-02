@@ -1,5 +1,6 @@
 package com.oocl.springboot.todo.service;
 
+import com.oocl.springboot.todo.exception.TodoNotFoundException;
 import com.oocl.springboot.todo.model.Todo;
 import com.oocl.springboot.todo.repository.TodoRepository;
 import java.util.List;
@@ -29,7 +30,7 @@ public class TodoService {
 
     public Todo findById(Integer id) {
         return todoRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new TodoNotFoundException("No such todo"));
     }
 
     public Todo create(Todo company) {
